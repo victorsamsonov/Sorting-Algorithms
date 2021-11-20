@@ -7,9 +7,16 @@ import SortedLine from "./Components/SortedLine";
 import { quickSort } from "./Algorithms/QuickSort";
 import { mergeSort } from "./Algorithms/MergeSort";
 
+function swap(items, leftIndex, rightIndex){
+    var temp = items[leftIndex];
+    items[leftIndex] = items[rightIndex];
+    items[rightIndex] = temp;
+}
+
 function App() {
-  const [size, setSize] = useState(200);
+  const [size, setSize] = useState(10);
   const WIDTH = 550;
+  const DT = 500;
   const randFunc = () => {
     return Math.floor(Math.random() * 100) + 1;
   };
@@ -37,11 +44,66 @@ function App() {
     }
 
     if (prop === QUICKSORT){
-      console.log(lines[0].props.height)
-      let copy = lines
-      let val = quickSort(copy, 0, copy.length-1)
-      setLines([val])
-      
+      //  setTimeout(()=>document.getElementById(lines[0].props.id).style.backgroundColor='red', 1000)
+      //  setLines(lines)
+      const updateLines = (arr) =>{
+        setLines(arr)
+      }
+       let currentAnimations = []
+       let currentArray = lines
+       let copyArray = lines.slice()
+      //  console.log(copy)
+       let obj = quickSort(currentArray, 0, currentArray.length-1, currentAnimations, copyArray)
+       let animations = obj.animations
+       let newArray = obj.arr
+      //  console.log(copy)
+      //  console.log(newArray)
+      //  console.log(animations)
+       let counter = 1;
+       let dt = DT;
+       while (animations.length){
+         let animation = animations.shift()
+         if (animation.pivot) {
+          //  console.log('yo')
+
+           setTimeout(() =>document.getElementById(animation.arr.props.id).style.backgroundColor='purple', counter * dt)
+          //  setTimeout(() =>document.getElementById(animation.arr.props.id).style.backgroundColor='white', (counter + 1) * dt)
+         }
+
+         if (animation.left){
+           setTimeout(() =>document.getElementById(animation.arr.props.id).style.backgroundColor='#009DAE', counter * dt)
+           setTimeout(() =>document.getElementById(animation.arr.props.id).style.backgroundColor='white', (counter+1) * dt)
+         }
+
+         if (animation.right){
+           setTimeout(() =>document.getElementById(animation.arr.props.id).style.backgroundColor='#009DAE', counter * dt)
+            setTimeout(() =>document.getElementById(animation.arr.props.id).style.backgroundColor='white', (counter+1) * dt)
+         }
+
+         if (animation.swap){
+           setTimeout(() =>{
+             document.getElementById(animation.arrLeft.props.id).style.backgroundColor='#30DD92';
+             document.getElementById(animation.arrRight.props.id).style.backgroundColor='#30DD92'
+            let temp = document.getElementById(animation.arrLeft.props.id).style.height
+            document.getElementById(animation.arrLeft.props.id).style.height = `${document.getElementById(animation.arrRight.props.id).style.height}`;
+            document.getElementById(animation.arrRight.props.id).style.height = `${temp}`
+             }, counter * dt)
+
+             setTimeout(() =>{
+             document.getElementById(animation.arrLeft.props.id).style.backgroundColor='white';
+             document.getElementById(animation.arrRight.props.id).style.backgroundColor='white'
+            
+             }, (counter + 1) * dt)
+         }
+         
+         counter++;
+         if (!animations.length){
+           setTimeout(()=>{ 
+            setLines([newArray])
+            console.log('updateeeed')
+          }, (counter) * dt)
+         }
+       } 
     }
 
     if (prop === MERGESORT){
@@ -49,7 +111,6 @@ function App() {
       let val = mergeSort([2, 5, 3, 1, 4, 6])  
     }
   }
-
   // useEffect(() => {
   //   setLines(handleVals());
   // }, [setLines]);
