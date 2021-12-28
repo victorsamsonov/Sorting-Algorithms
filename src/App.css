@@ -53,7 +53,7 @@
   margin: 1rem 2rem;
   border: solid 1px blue;
   border-radius: 0.75rem;
-  background-color: #000d6b;
+  background-color: #020b49;
 }
 
 .sorted-line {
@@ -121,6 +121,10 @@
 .is-settings {
   bottom:0.1em;
   background-color:#ff4500;
+}
+
+.is-disabled {
+  background-color:purple;
 }
 
 .fade {

@@ -1,6 +1,6 @@
 import SortedLine from '../Components/SortedLine'
 
-function partition (arr, l, r, animations=[], copy){
+function partition (arr, l, r, animations=[], copy, finalize=false){
    
     var p = arr[Math.floor((r + l)/2)].props.height;
     let pivotAnimationArray = {
@@ -9,11 +9,6 @@ function partition (arr, l, r, animations=[], copy){
         index: Math.floor((r + l)/2)
     }
     animations.push(pivotAnimationArray)
-
-    // setTimeout(()=>{
-    //             document.getElementById(arr[Math.floor((r + l)/2)].props.id).style.backgroundColor = 'purple'
-    //         }, dt*(l+r))
-    
     while (l <= r) {
     
         while (arr[l].props.height < p){
@@ -23,13 +18,7 @@ function partition (arr, l, r, animations=[], copy){
                 index: l
             }
             animations.push(leftPointerAnimationArray)
-            // setTimeout(()=>{
-            //     document.getElementById(arr[l].props.id).style.backgroundColor = 'green'
-            // }, l*dt)
             l++;
-            // setTimeout(()=>{
-            //     document.getElementById(arr[l].props.id).style.backgroundColor = 'white'
-            // }, l*dt)
         }
 
         while (arr[r].props.height > p){
@@ -39,12 +28,6 @@ function partition (arr, l, r, animations=[], copy){
                 index: r
             }
             animations.push(rightPointerAnimationArray)
-            // setTimeout(()=>{
-            //     document.getElementById(arr[r].props.id).style.backgroundColor = 'red'
-            // }, r*dt)
-            // setTimeout(()=>{
-            //     document.getElementById(arr[r].props.id).style.backgroundColor = 'white'
-            // }, (r+1)*dt)
             r--; 
         }
 
@@ -60,6 +43,7 @@ function partition (arr, l, r, animations=[], copy){
             swap(arr, l, r);
             l++;
             r--;
+           
         }
      }
     return l
@@ -72,18 +56,23 @@ function swap(items, leftIndex, rightIndex){
 }
 
 export function quickSort(arr, l, r, animations=[], copy){
-    // updateLines([arr])
     var index;
    
     if (arr.length > 1){
         index = partition(arr, l, r, animations, copy);
         
         if(l < index - 1){
+            // animations.push({
+            //     final:true,
+            //     arr:copy[index],
+            //     index:index
+            // })
             quickSort(arr, l, index-1, animations, copy);
+
         }
 
         if (index < r){
-            quickSort(arr, index, r, animations, copy);
+            quickSort(arr, index, r, animations, copy, true);
         }
     }
 
