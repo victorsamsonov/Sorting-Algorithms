@@ -1,6 +1,8 @@
 .App {
   text-align: center;
   height: 100vh;
+  display:flex;
+  flex-direction: column;
 }
 
 .App-header {
@@ -10,15 +12,16 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  border: solid 1px red;
+  /* border: solid 1px red; */
   padding: 0.5rem 0;
+  flex:1
 }
 
 .title {
   margin: 0;
   padding: 0;
   font-weight: 100;
-  border: solid 1px red;
+  /* border: solid 1px red; */
   margin-right: auto;
   margin-left: 1rem;
   font-size: 2rem;
@@ -28,8 +31,15 @@
   color: #61dafb;
 }
 
+.sorted-text {
+  font-size: 1.25rem;
+  font-weight: 200;
+  color: white;
+  max-height: 40px;
+  min-height: 40px;
+}
+
 .body {
-  height: 92.5%;
   background-image: radial-gradient(
     circle farthest-corner at 32.7% 82.7%,
     rgba(173, 0, 171, 1) 8.3%,
@@ -37,9 +47,10 @@
   );
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  border: solid 1px red;
+  /* border: solid 1px red; */
+  flex:8
 }
 
 .main-wrapper {
@@ -50,8 +61,8 @@
   min-height: 90%;
   min-width: 90%;
   height: auto;
-  margin: 1rem 2rem;
-  border: solid 1px blue;
+  margin: 0rem 2rem;
+  /* border: solid 1px blue; */
   border-radius: 0.75rem;
   background-color: #020b49;
 }
@@ -64,7 +75,7 @@
 
 .settings-wrapper {
   width: 100%;
-  border: solid 1px green;
+  /* border: solid 1px green; */
   margin-right: 1rem;
   margin-left: 1rem;
   background-color: #222831;
@@ -113,7 +124,7 @@
 }
 
 .selected-right {
-  background-color:'red';
+  /* background-color:'red'; */
   width: 50px;
   margin: 0 1px;
 }
@@ -127,14 +138,6 @@
   background-color:purple;
 }
 
-.fade {
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
-  -ms-animation: fadein 2s; /* Internet Explorer */
-  -o-animation: fadein 2s; /* Opera < 12.1 */
-  animation: fadein 2s;
-}
-
 @keyframes fadein {
   from {
     opacity: 0;
@@ -144,7 +147,6 @@
   }
 }
 
-/* Firefox < 16 */
 @-moz-keyframes fadein {
   from {
     opacity: 0;
@@ -154,7 +156,7 @@
   }
 }
 
-/* Safari, Chrome and Opera > 12.1 */
+
 @-webkit-keyframes fadein {
   from {
     opacity: 0;
@@ -164,21 +166,11 @@
   }
 }
 
-/* Internet Explorer */
 @-ms-keyframes fadein {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }

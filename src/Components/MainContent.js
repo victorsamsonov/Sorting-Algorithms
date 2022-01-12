@@ -6,8 +6,7 @@ function MainContent({className, lines}) {
  
   return (
     <div className={`main-wrapper ${className}`}>
-        {lines}
-        
+        {lines} 
     </div>
   );
 }
