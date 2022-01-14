@@ -52,13 +52,13 @@ function merge(mainArray, leftPtr, rightPtr, middlePtr, copy, animations) {
     animations.push([i, j]);
     if (copy[i].props.height <= copy[j].props.height) {
       // Update our array with element at the left Pointer
-      animations.push([k, copy[i].props.height]);
+      animations.push([k, copy[i].props.height, i]);
       mainArray[k] = copy[i];
       k++;
       i++;
     } else {
       // Update our array with element at the right Pointer
-      animations.push([k, copy[j].props.height]);
+      animations.push([k, copy[j].props.height, j]);
       mainArray[k] = copy[j];
       k++;
       j++;
@@ -68,7 +68,7 @@ function merge(mainArray, leftPtr, rightPtr, middlePtr, copy, animations) {
     animations.push([i, i]);
     animations.push([i, i]);
     // Update our array with element at the left Pointer
-    animations.push([k, copy[i].props.height]);
+    animations.push([k, copy[i].props.height, i]);
     mainArray[k] = copy[i];
     i++;
     k++
@@ -77,7 +77,7 @@ function merge(mainArray, leftPtr, rightPtr, middlePtr, copy, animations) {
     animations.push([j, j]);
     animations.push([j, j]);
     // Update our array with element at the right Pointer
-    animations.push([k, copy[j].props.height]);
+    animations.push([k, copy[j].props.height, j]);
     mainArray[k] = copy[j];
     j++;
     k++;

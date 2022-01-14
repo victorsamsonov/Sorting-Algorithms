@@ -3,16 +3,16 @@ import "./App.css";
 import React, { useState, useEffect, useCallback } from "react";
 import MainContent from "./Components/MainContent";
 import Settings from "./Components/Settings";
+import Configuration from "./Components/Configuration"
 import SortedLine from "./Components/SortedLine";
 import { quickSort } from "./Algorithms/QuickSort";
 import { mergeSort, getMergeSortAnimations } from "./Algorithms/MergeSort";
+import { Slider } from 'material-ui-slider';
 
 function App() {
-  const [size, setSize] = useState(500);
   const WIDTH = 550;
+  const DEFAULT_DT = 100
   // Constant for setTimeout() animations
-  const DT = 5;
-
   const QUICKSORT = "Quick Sort";
   const RANDOMIZEARRAY = "Randomize Array";
   const MERGESORT = "Merge Sort";
@@ -28,8 +28,10 @@ function App() {
   const [currAnimations, setAnimations] = useState();
   const [idCounter, setidCounter] = useState(0);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const [animation, setAnimation] = useState(true)
   const [isSorted, setIsSorted] = useState(false);
-
+  const [DT, setDT] = useState(DEFAULT_DT);
+  const [size, setSize] = useState(80);
   const randFunc = () => {
     return Math.floor(Math.random() * 100) + 1;
   };
@@ -43,6 +45,17 @@ function App() {
       });
     return out;
   };
+
+  const handleAnimationChange = () =>{
+    if (animation) {
+      setDT(0);
+      setAnimation(false);
+    }
+    else {
+      setDT(DEFAULT_DT)
+      setAnimation(true)
+    }
+  }
 
   // Used to initialize the lines that are going to get sorted
   const handleVals = () => {
@@ -185,8 +198,12 @@ function App() {
         }, i * DT);
       } else {
         setTimeout(() => {
-          let [ptr1, newHeight] = currentAnimations[i];
+          let [ptr1, newHeight, ptr2] = currentAnimations[i];
+          console.log(ptr1, ptr2)
+          let temp = linesToSort[ptr1].style.height
+          console.log(temp, newHeight)
           linesToSort[ptr1].style.height = `${newHeight}px`;
+          if (newHeight !== temp) linesToSort[ptr2].style.height = `${temp}px`; 
         }, i * DT);
       }
     }
@@ -206,15 +223,17 @@ function App() {
     if (prop == RANDOMIZEARRAY) {
       setLines([]);
       setLines(handleVals());
-    } else if (prop === QUICKSORT) {
+    } else if (prop === QUICKSORT && lines.length !== 1) {
       handleQuickSortAnimation();
     } else if (prop === MERGESORT) {
       handleMergeSortAnimation();
     }
+    setIsSorted(false);
+    setButtonsDisabled(false)
   }
   useEffect(() => {
     setLines(handleVals());
-  }, []);
+  }, [size]);
 
   return (
     <div className="App">
@@ -244,6 +263,19 @@ function App() {
           </>
         )}
         <MainContent className={fadeClass} lines={lines} />
+        <header className="bottom-header">
+        <h1 className="title"> Settings </h1>
+        <Configuration
+          currentSpeed={1500-DT}
+          currentSize={size}
+          speedFunc={(value)=>setDT(value)}
+          buttonsDisabled={buttonsDisabled}
+          sizeFunc={(value)=>{setSize(value)}}
+          animation={animation}
+          animationButton={true}
+          animationFunc={handleAnimationChange}
+        />
+      </header>
       </div>
     </div>
   );
