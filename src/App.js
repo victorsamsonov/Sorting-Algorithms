@@ -11,7 +11,7 @@ import { Slider } from 'material-ui-slider';
 
 function App() {
   const WIDTH = 550;
-  const DEFAULT_DT = 100
+  const DEFAULT_DT = 70;
   // Constant for setTimeout() animations
   const QUICKSORT = "Quick Sort";
   const RANDOMIZEARRAY = "Randomize Array";
@@ -31,7 +31,8 @@ function App() {
   const [animation, setAnimation] = useState(true)
   const [isSorted, setIsSorted] = useState(false);
   const [DT, setDT] = useState(DEFAULT_DT);
-  const [size, setSize] = useState(80);
+  const [size, setSize] = useState(50);
+  const [isSorting, setIsSorting] = useState(false);
   const randFunc = () => {
     return Math.floor(Math.random() * 100) + 1;
   };
@@ -46,6 +47,7 @@ function App() {
     return out;
   };
 
+  // Settings section that determine if animations are on or off
   const handleAnimationChange = () =>{
     if (animation) {
       setDT(0);
@@ -77,6 +79,7 @@ function App() {
   };
 
   const handleQuickSortAnimation = () => {
+    
     let currentAnimations = [];
     let currentArray = lines;
     let copyArray = lines.slice();
@@ -87,12 +90,14 @@ function App() {
       currentAnimations,
       copyArray
     );
+    setLines([copyArray])
     let animations = obj.animations;
     let newArray = obj.arr;
     // Used to determine the duration of an animation being updated
     let counter = 1;
     // Rate of animations being updated
     let dt = DT;
+    let LEN = animations.length
     // Iterates through an array containing all the animations that occured during quickSort()
     while (animations.length) {
       let animation = animations.shift();
@@ -172,11 +177,10 @@ function App() {
         setTimeout(() => {
           setButtonsDisabled(false);
           setIsSorted(true);
-          console.log("yessir");
-        }, (counter + 2) * dt);
+        }, (counter) * dt);
       }
     }
-    setLines([copyArray]);
+
   };
 
   const handleMergeSortAnimation = () => {
@@ -223,14 +227,16 @@ function App() {
     if (prop == RANDOMIZEARRAY) {
       setLines([]);
       setLines(handleVals());
-    } else if (prop === QUICKSORT && lines.length !== 1) {
-      handleQuickSortAnimation();
+    } else if (prop === QUICKSORT) {
+      setButtonsDisabled(true);
+      setTimeout(handleQuickSortAnimation, 100)
+      ;
     } else if (prop === MERGESORT) {
+      setButtonsDisabled(true);
       handleMergeSortAnimation();
     }
-    setIsSorted(false);
-    setButtonsDisabled(false)
   }
+  
   useEffect(() => {
     setLines(handleVals());
   }, [size]);
@@ -242,8 +248,7 @@ function App() {
         <Settings
           onClick={(out) => {
             // Disables the buttons since an animation is taking place
-            if (out !== RANDOMIZEARRAY && !isSorted) {
-              setButtonsDisabled(true);
+            if (out !== RANDOMIZEARRAY && !isSorted && lines.length !== 1) {
               handleSettingsClick(out);
             } else if (out === RANDOMIZEARRAY) {
               handleSettingsClick(out);

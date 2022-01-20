@@ -8,6 +8,7 @@ function Configuration({ buttonsDisabled, currentSpeed, currentSize, speedFunc, 
     const MAXSIZE = 400;
     const [speedValue, setSpeedValue] = useState(currentSpeed);
     const [sizeValue, setSizeValue] = useState(currentSize);
+
     const handleSpeedChange = (value) => {
         setSpeedValue(value)
         speedFunc(MAXSPEED - value)
@@ -29,9 +30,11 @@ function Configuration({ buttonsDisabled, currentSpeed, currentSize, speedFunc, 
                 Sorting Speed
             </text>
             <Slider defaultValue={speedValue}
-            max={MAXSPEED}
-            onChange={handleSpeedChange}
-            value={currentSpeed}
+                max={MAXSPEED}
+                onChange={handleSpeedChange}
+                value={currentSpeed}
+                color='#3369ff'
+                disabled={buttonsDisabled}
             />
        </div>
        <div className='configuration-section'>
@@ -39,17 +42,24 @@ function Configuration({ buttonsDisabled, currentSpeed, currentSize, speedFunc, 
                 Array Size {sizeValue}
             </text>
             <Slider defaultValue={sizeValue}
-            max={MAXSIZE+1}
-            onChange={handleSizeChange}
-            min={1}
+                max={MAXSIZE+1}
+                onChange={handleSizeChange}
+                min={1}
+                color='#3369ff'
+                disabled={buttonsDisabled}
+
             />
        </div>
        <div className='configuration-section'>
        <text className="configuration-title">
                 Animations are {animation? 'ON' : 'OFF'}
             </text>
-            <Button animation={!animation} title={"Animation"} func={() => animationFunc()}
-            animationButton={true}
+            <Button animation={!animation} 
+                title={"Animation"} 
+                func={() => animationFunc()}
+                animationButton={true}
+                disabled={buttonsDisabled}
+
             />
        </div>
     </div>
