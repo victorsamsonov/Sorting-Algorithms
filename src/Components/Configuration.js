@@ -59,7 +59,6 @@ function Configuration({ buttonsDisabled, currentSpeed, currentSize, speedFunc, 
                 func={() => animationFunc()}
                 animationButton={true}
                 disabled={buttonsDisabled}
-
             />
        </div>
     </div>

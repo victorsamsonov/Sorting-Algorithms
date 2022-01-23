@@ -14,7 +14,7 @@ function Settings({vals, onClick, buttonsDisabled}) {
   const BUTTONSARRAY = [
     {title:QUICKSORT, isSelected:false, func:()=>onClick(QUICKSORT), disabled:buttonsDisabled}, 
     {title:MERGESORT, isSelected:false, func:()=>onClick(MERGESORT), disabled:buttonsDisabled},
-    {title:HEAPSORT, isSelected:false, func:()=>console.log(20), disabled:buttonsDisabled},
+    {title:HEAPSORT, isSelected:false, func:()=>onClick(HEAPSORT), disabled:buttonsDisabled},
     {title:'About Sorting Algorithms', isSelected:true, func:()=>console.log(20), disabled:buttonsDisabled},
     {title:RANDOMIZEARRAY, isSelected:false, func:()=>onClick(RANDOMIZEARRAY), isSettings: true, disabled:buttonsDisabled }
   ];

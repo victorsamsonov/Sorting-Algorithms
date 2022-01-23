@@ -3,11 +3,12 @@ import "./App.css";
 import React, { useState, useEffect, useCallback } from "react";
 import MainContent from "./Components/MainContent";
 import Settings from "./Components/Settings";
-import Configuration from "./Components/Configuration"
+import Configuration from "./Components/Configuration";
 import SortedLine from "./Components/SortedLine";
 import { quickSort } from "./Algorithms/QuickSort";
 import { mergeSort, getMergeSortAnimations } from "./Algorithms/MergeSort";
-import { Slider } from 'material-ui-slider';
+import { Slider } from "material-ui-slider";
+import HeapSort from "./Algorithms/HeapSort";
 
 function App() {
   const WIDTH = 550;
@@ -19,16 +20,16 @@ function App() {
   const WHITE = "white";
   const HEAPSORT = "Heap Sort";
   // Colors
-  const PRIMARY = "#009DAE";
-  const SECONDARY = "#30DD92";
-  const TERTIARY = "#8843F2";
+  const PRIMARY = "#AEFEFF";
+  const SECONDARY = "#30C785";
+  const TERTIARY = "#800080";
   const [fadeClass, setFadeClass] = useState("fade");
   const [vals, setVals] = useState([]);
   const [lines, setLines] = useState([]);
   const [currAnimations, setAnimations] = useState();
   const [idCounter, setidCounter] = useState(0);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
-  const [animation, setAnimation] = useState(true)
+  const [animation, setAnimation] = useState(true);
   const [isSorted, setIsSorted] = useState(false);
   const [DT, setDT] = useState(DEFAULT_DT);
   const [size, setSize] = useState(50);
@@ -48,16 +49,15 @@ function App() {
   };
 
   // Settings section that determine if animations are on or off
-  const handleAnimationChange = () =>{
+  const handleAnimationChange = () => {
     if (animation) {
       setDT(0);
       setAnimation(false);
+    } else {
+      setDT(DEFAULT_DT);
+      setAnimation(true);
     }
-    else {
-      setDT(DEFAULT_DT)
-      setAnimation(true)
-    }
-  }
+  };
 
   // Used to initialize the lines that are going to get sorted
   const handleVals = () => {
@@ -79,7 +79,6 @@ function App() {
   };
 
   const handleQuickSortAnimation = () => {
-    
     let currentAnimations = [];
     let currentArray = lines;
     let copyArray = lines.slice();
@@ -90,14 +89,14 @@ function App() {
       currentAnimations,
       copyArray
     );
-    setLines([copyArray])
+    setLines([copyArray]);
     let animations = obj.animations;
     let newArray = obj.arr;
     // Used to determine the duration of an animation being updated
     let counter = 1;
     // Rate of animations being updated
     let dt = DT;
-    let LEN = animations.length
+    let LEN = animations.length;
     // Iterates through an array containing all the animations that occured during quickSort()
     while (animations.length) {
       let animation = animations.shift();
@@ -177,10 +176,9 @@ function App() {
         setTimeout(() => {
           setButtonsDisabled(false);
           setIsSorted(true);
-        }, (counter) * dt);
+        }, counter * dt);
       }
     }
-
   };
 
   const handleMergeSortAnimation = () => {
@@ -203,11 +201,11 @@ function App() {
       } else {
         setTimeout(() => {
           let [ptr1, newHeight, ptr2] = currentAnimations[i];
-          console.log(ptr1, ptr2)
-          let temp = linesToSort[ptr1].style.height
-          console.log(temp, newHeight)
+          console.log(ptr1, ptr2);
+          let temp = linesToSort[ptr1].style.height;
+          console.log(temp, newHeight);
           linesToSort[ptr1].style.height = `${newHeight}px`;
-          if (newHeight !== temp) linesToSort[ptr2].style.height = `${temp}px`; 
+          if (newHeight !== temp) linesToSort[ptr2].style.height = `${temp}px`;
         }, i * DT);
       }
     }
@@ -223,20 +221,60 @@ function App() {
 
   // Handles the buttons clicked in the header (determines whether to randomize, perform an algorithm or display more info about sorting algorithms)
   function handleSettingsClick(prop) {
+    console.log(prop);
     // Randomizes Array
     if (prop == RANDOMIZEARRAY) {
       setLines([]);
       setLines(handleVals());
     } else if (prop === QUICKSORT) {
       setButtonsDisabled(true);
-      setTimeout(handleQuickSortAnimation, 100)
-      ;
+      setTimeout(handleQuickSortAnimation, 1);
     } else if (prop === MERGESORT) {
       setButtonsDisabled(true);
       handleMergeSortAnimation();
+    } else if (prop == HEAPSORT) {
+      setButtonsDisabled(true);
+      let currentArray = lines.slice();
+      let copy = lines.slice();
+      let currentAnimations = [];
+      let newArray = HeapSort(currentArray, copy, currentAnimations);
+      let counter = 0;
+      while (currentAnimations.length) {
+        let animation = currentAnimations.pop();
+        let { arr1, arr2, type } = animation;
+        if (arr1.props.id !== arr2.props.id) {
+          arr1 = document.getElementById(arr1.props.id);
+          arr2 = document.getElementById(arr2.props.id);
+          setTimeout(() => {
+            let arr2Height = arr2.style.height;
+            let arr1Height = arr1.style.height;
+            // Swap the height values
+            arr1.style.height = arr2Height;
+            arr2.style.height = arr1Height;
+            arr1.style.backgroundColor = type === 'min' ? SECONDARY : PRIMARY
+            arr2.style.backgroundColor = type === 'min' ? SECONDARY : PRIMARY
+
+            console.log();
+          }, DT * counter);
+
+          setTimeout(() => {
+            arr1.style.backgroundColor = WHITE;
+            arr2.style.backgroundColor = WHITE;
+          }, DT * (counter+1));
+        }
+
+        if (!currentAnimations.length) {
+          setTimeout(() => {
+            setButtonsDisabled(false)
+            setIsSorted(true)
+            setLines([newArray])
+          }, DT * counter);
+        }
+        counter++;
+      }
     }
   }
-  
+
   useEffect(() => {
     setLines(handleVals());
   }, [size]);
@@ -269,18 +307,20 @@ function App() {
         )}
         <MainContent className={fadeClass} lines={lines} />
         <header className="bottom-header">
-        <h1 className="title"> Settings </h1>
-        <Configuration
-          currentSpeed={1500-DT}
-          currentSize={size}
-          speedFunc={(value)=>setDT(value)}
-          buttonsDisabled={buttonsDisabled}
-          sizeFunc={(value)=>{setSize(value)}}
-          animation={animation}
-          animationButton={true}
-          animationFunc={handleAnimationChange}
-        />
-      </header>
+          <h1 className="title"> Settings </h1>
+          <Configuration
+            currentSpeed={1500 - DT}
+            currentSize={size}
+            speedFunc={(value) => setDT(value)}
+            buttonsDisabled={buttonsDisabled}
+            sizeFunc={(value) => {
+              setSize(value);
+            }}
+            animation={animation}
+            animationButton={true}
+            animationFunc={handleAnimationChange}
+          />
+        </header>
       </div>
     </div>
   );
