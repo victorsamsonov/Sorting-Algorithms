@@ -9,6 +9,8 @@ import { quickSort } from "./Algorithms/QuickSort";
 import { mergeSort, getMergeSortAnimations } from "./Algorithms/MergeSort";
 import { Slider } from "material-ui-slider";
 import HeapSort from "./Algorithms/HeapSort";
+import Modal from "./Components/Modal";
+
 
 function App() {
   const WIDTH = 550;
@@ -19,6 +21,7 @@ function App() {
   const MERGESORT = "Merge Sort";
   const WHITE = "white";
   const HEAPSORT = "Heap Sort";
+  const INFO = 'Info'
   // Colors
   const PRIMARY = "#AEFEFF";
   const SECONDARY = "#30C785";
@@ -34,6 +37,7 @@ function App() {
   const [DT, setDT] = useState(DEFAULT_DT);
   const [size, setSize] = useState(50);
   const [isSorting, setIsSorting] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const randFunc = () => {
     return Math.floor(Math.random() * 100) + 1;
   };
@@ -79,6 +83,7 @@ function App() {
   };
 
   const handleQuickSortAnimation = () => {
+    
     let currentAnimations = [];
     let currentArray = lines;
     let copyArray = lines.slice();
@@ -89,7 +94,8 @@ function App() {
       currentAnimations,
       copyArray
     );
-    setLines([copyArray]);
+    setLines(copyArray)
+    
     let animations = obj.animations;
     let newArray = obj.arr;
     // Used to determine the duration of an animation being updated
@@ -272,6 +278,8 @@ function App() {
         }
         counter++;
       }
+    } else if (prop === INFO) {
+      setOpenModal(!openModal)
     }
   }
 
@@ -293,6 +301,7 @@ function App() {
             }
           }}
           buttonsDisabled={buttonsDisabled}
+          modal={openModal}
         />
       </header>
       <div className="body">
@@ -305,6 +314,8 @@ function App() {
             <text className="sorted-text"></text>
           </>
         )}
+         { openModal && <Modal setOpenModal={(prop)=>setOpenModal(prop)}
+        closeModal={setOpenModal}/>}
         <MainContent className={fadeClass} lines={lines} />
         <header className="bottom-header">
           <h1 className="title"> Settings </h1>
@@ -320,8 +331,11 @@ function App() {
             animationButton={true}
             animationFunc={handleAnimationChange}
           />
+          
         </header>
+       
       </div>
+      
     </div>
   );
 }

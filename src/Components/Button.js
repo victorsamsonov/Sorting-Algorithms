@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-
-function Button({title, func, isSelected=true, isSettings=false, disabled, animation, animationButton}) {
+import './Modal.css'
+function Button({title, func, isSelected=true, isSettings=false, disabled, animation, animationButton, aboutButton=false}) {
   
   return (
     <button  className={`button ${isSelected ? 'is-selected' : ''} ${isSettings ? 'is-settings' : ''} ${disabled ? 'is-disabled' : ''}

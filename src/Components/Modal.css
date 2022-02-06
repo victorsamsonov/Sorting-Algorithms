@@ -1,0 +1,137 @@
+.modal-background {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(200, 200, 200, 0.6);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-container {
+  width: 82.5%;
+  height: 82.5%;
+  border-radius: 0.25rem;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 17.5%;
+  border-top: #1be48d solid 4vh;
+}
+.modal-body {
+  background-color: white;
+}
+.modal-container.title {
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.title-close-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.title-close-btn button {
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.modal-container .body {
+  flex: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.modal-container .footer {
+  flex: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-container .footer button {
+  width: 150px;
+  height: 45px;
+  margin: 10px;
+  border: none;
+  background-color: rgb(71, 190, 130);
+  color: white;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#cancelBtn {
+  background-color: rgb(250, 64, 7);
+}
+
+a {
+  text-decoration: none;
+  font-size: 0.75rem;
+}
+
+li {
+  margin-bottom: 0.25rem;
+  text-align: left;
+  margin-left: 0.5rem;
+}
+
+p {
+  font-size: 0.75rem;
+  text-align: left;
+  margin: 0 0.25rem;
+  tab-size: 3rem;
+}
+h2 {
+  margin: none;
+  padding: none;
+  font-size: 2rem;
+}
+
+h3 {
+  margin: none;
+  padding: none;
+  font-size: 1rem;
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.about-me {
+  background-color: #3369ff;
+  min-height: 40px;
+  width: 100%;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+}
+
+.about-me text {
+  color: white;
+  margin-left: 10px;
+}
+
+.modal-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+img {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 100%;
+  background-color: white;
+}
